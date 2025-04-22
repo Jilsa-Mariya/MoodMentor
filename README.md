@@ -6,12 +6,12 @@
 
 ##  🧠 Features(Planned)
 
-- ** 🎯 Mood Tracking**: Easily log your mood each day and track changes over time.
-- ** 📈 Mood Insights**: View trends and patterns to understand how your emotions evolve.
-- ** 💡 Personalized Tips**: Get helpful suggestions based on your mood history.
-- ** 🧘 Mindfulness Exercises**: Quick and simple breathing exercises and mindfulness tools to help calm your mind.
-- ** 🎮Fun Games**: Play short, relaxing games designed to uplift your mood and reduce stress.
-- ** 🔒 Privacy Focused**: Your data stays private and secure, ensuring a safe space for reflection.
+- **🎯 Mood Tracking**: Easily log your mood each day and track changes over time.
+- **📈 Mood Insights**: View trends and patterns to understand how your emotions evolve.
+- **💡 Personalized Tips**: Get helpful suggestions based on your mood history.
+- **🧘 Mindfulness Exercises**: Quick and simple breathing exercises and mindfulness tools to help calm your mind.
+- **🎮Fun Games**: Play short, relaxing games designed to uplift your mood and reduce stress.
+- **🔒 Privacy Focused**: Your data stays private and secure, ensuring a safe space for reflection.
 
 ---
 
