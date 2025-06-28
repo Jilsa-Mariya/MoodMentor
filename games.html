@@ -1,0 +1,440 @@
+<!-- Full Updated & Working HTML Code -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relaxing Games | Mood Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F9FAFB;
+      --text: #2E2E2E;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #F9FAFB, #E6F0F3);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    header {
+      background: var(--primary);
+      padding: 1.2rem 2rem;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(160, 195, 210, 0.4);
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .games-container {
+      max-width: 1300px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 24px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-card h3 {
+      margin: 1rem 0 0.3rem;
+      font-size: 1.3rem;
+      color: #4C4C4C;
+    }
+
+    .game-card p {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .game-card img {
+      width: 100%;
+      border-radius: 14px;
+      margin-bottom: 1rem;
+      object-fit: cover;
+      max-height: 200px;
+    }
+
+    .game-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+
+    .play-button {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      margin-top: 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .play-button:hover {
+      background-color: #90b7c5;
+    }
+
+    .memory-board {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 10px;
+      justify-content: center;
+      margin: 1rem auto;
+    }
+
+    .memory-card {
+      width: 60px;
+      height: 60px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      user-select: none;
+    }
+
+    .memory-card.flipped {
+      background: var(--primary);
+      color: white;
+    }
+
+    .scoreboard {
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    .congrats-message {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 1rem;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
+  background: var(--primary);
+  padding: 1.2rem 2rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 0;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+header {
+  background: var(--primary);
+  padding: 1.2rem 2rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-size: 1rem;
+  font-weight: normal;
+  border-radius: 0;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+.profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.profile-body {
+  padding-top: 1rem;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+  <div><strong>Mood Mentor</strong></div>
+  <nav id="navbarLinks">
+    <a href="tracker.html">Mood</a>
+    <a href="journal.html">Journal</a>
+    <a href="todo.html">To-Do</a>
+    <a href="games.html">Games</a>
+    <a href="exercises.html">Exercises</a>
+    <a href="login.html" id="loginLink">Login/SignUp</a>
+  </nav>
+  <span id="profileIcon" style="display: none; margin-left: 1rem; cursor: pointer;"><a href="profile.html" class="profile-icon">👤</a>
+</span>
+</header>
+
+<script>
+  const profileIcon = document.getElementById("profileIcon");
+  const loginLink = document.getElementById("loginLink");
+  const user = localStorage.getItem("user");
+
+  if (user) {
+    profileIcon.style.display = "inline";
+    loginLink.style.display = "none";
+  } else {
+    profileIcon.style.display = "none";
+    loginLink.style.display = "inline";
+  }
+
+  profileIcon?.addEventListener("click", () => {
+    alert("Profile modal coming soon or redirect to profile!");
+  });
+</script>
+
+  <div class="games-container">
+
+    <!-- Memory Match -->
+    <div class="game-card">
+      <h3>Memory Match</h3>
+      <p>Flip and match calming emoji cards.</p>
+      <div class="memory-board" id="memoryBoard"></div>
+      <div class="scoreboard" id="scoreboard">Moves: 0 | Matches: 0</div>
+      <button onclick="createBoard()" class="play-button">New Game</button>
+      <div class="congrats-message" id="congratsMessage" style="display: none;">🎉 You matched them all!</div>
+    </div>
+
+    <!-- Calm Typing -->
+    <div class="game-card">
+      <img src="https://static.vecteezy.com/system/resources/previews/002/567/732/large_2x/cartoon-man-typing-with-ten-fingers-on-the-keyboard-illustration-free-vector.jpg" alt="Calm Typing" />
+      <h3>Calm Typing</h3>
+      <p>Type peaceful quotes at your own pace.</p>
+      <a href="https://monkeytype.com/?mode=zen" target="_blank" class="play-button">Start Typing</a>
+    </div>
+
+    <!-- Mandala Draw -->
+    <div class="game-card">
+      <img src="https://th.bing.com/th/id/OIP.urUclIUUFnZMDLh_2o2aLgHaHa?pid=ImgDet&rs=1" alt="Mandala Draw" />
+      <h3>Mandala Draw</h3>
+      <p>Create mesmerizing mandala art online.</p>
+      <a href="https://www.mandalagaba.com/" target="_blank" class="play-button">Draw Mandala</a>
+    </div>
+
+    <!-- Fluid Paint -->
+    <div class="game-card">
+      <img src="https://th.bing.com/th/id/OIP.zcoi6CuNyzsoZCOUeUiTLwHaFf?pid=ImgDet&rs=1" alt="Fluid Paint">
+      <h3>Fluid Paint</h3>
+      <p>Relax while creating flowing paint patterns.</p>
+      <a href="https://neal.fun/paint/" target="_blank" class="play-button">Try Painting</a>
+    </div>
+
+    <!-- Music Garden -->
+    <div class="game-card">
+      <img src="https://musiclab.chromeexperiments.com/img/experiments/thumbanil_rhythm.jpg" alt="Music Garden">
+      <h3>Music Garden</h3>
+      <p>Create ambient music using simple blocks.</p>
+      <a href="https://musiclab.chromeexperiments.com/Song-Maker/" target="_blank" class="play-button">Make Music</a>
+    </div>
+
+    <!-- Zen Sand Art -->
+    <div class="game-card">
+      <img src="https://cdn.thisissand.com/v1/thumbnails/19971365/280" alt="Zen Sand">
+      <h3>Zen Sand Art</h3>
+      <p>Drag and draw calm patterns in falling sand.</p>
+      <a href="https://thisissand.com/" target="_blank" class="play-button">Draw in Sand</a>
+    </div>
+  </div>
+
+  <script>
+    const symbols = ['🍃','🌸','🌞','🍄','🦋','🌼','🌙','⭐'];
+    const board = document.getElementById('memoryBoard');
+    const scoreboard = document.getElementById('scoreboard');
+    const congrats = document.getElementById('congratsMessage');
+    let cards = [], flipped = [], moves = 0, matches = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function createBoard() {
+      const pairSymbols = shuffle([...symbols, ...symbols]);
+      board.innerHTML = '';
+      moves = 0; matches = 0;
+      congrats.style.display = 'none';
+      scoreboard.textContent = `Moves: ${moves} | Matches: ${matches}`;
+      cards = []; flipped = [];
+
+      pairSymbols.forEach((symbol, index) => {
+        const card = document.createElement('div');
+        card.className = 'memory-card';
+        card.dataset.symbol = symbol;
+        card.dataset.index = index;
+        card.textContent = '';
+        card.addEventListener('click', handleFlip);
+        board.appendChild(card);
+        cards.push(card);
+      });
+    }
+
+    function handleFlip(e) {
+      const card = e.currentTarget;
+      if (card.classList.contains('flipped') || flipped.length === 2) return;
+      card.classList.add('flipped');
+      card.textContent = card.dataset.symbol;
+      flipped.push(card);
+
+      if (flipped.length === 2) {
+        moves++;
+        if (flipped[0].dataset.symbol === flipped[1].dataset.symbol) {
+          matches++;
+          flipped = [];
+          if (matches === symbols.length) {
+            congrats.style.display = 'block';
+          }
+        } else {
+          setTimeout(() => {
+            flipped.forEach(c => {
+              c.classList.remove('flipped');
+              c.textContent = '';
+            });
+            flipped = [];
+          }, 800);
+        }
+        scoreboard.textContent = `Moves: ${moves} | Matches: ${matches}`;
+      }
+    }
+
+    createBoard();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Load profile.html content dynamically
+  fetch('profile.html')
+    .then(res => res.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      setupProfile();
+    });
+
+  function setupProfile() {
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePanel = document.getElementById('profilePanel');
+    const closeProfile = document.getElementById('closeProfile');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    profileIcon.style.display = 'block';
+
+    profileIcon.addEventListener('click', async () => {
+      const email = localStorage.getItem('email') || 'anonymous';
+      userEmailSpan.textContent = email;
+      profilePanel.style.display = 'flex';
+      await loadMoodStats(email);
+    });
+
+    closeProfile.addEventListener('click', () => {
+      profilePanel.style.display = 'none';
+    });
+
+    async function loadMoodStats(email) {
+      try {
+        const res = await fetch(`http://localhost:5000/mood-stats/${email}`);
+        const data = await res.json();
+        const moods = Object.keys(data);
+        const counts = moods.map(m => data[m]);
+
+        new Chart(document.getElementById('moodPieChart'), {
+          type: 'pie',
+          data: {
+            labels: moods,
+            datasets: [{
+              data: counts,
+              backgroundColor: ['#60a5fa','#f87171','#fbbf24','#34d399','#a78bfa','#f472b6','#10b981','#fcd34d']
+            }]
+          }
+        });
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

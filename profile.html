@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Profile | Mood Mentor</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-bg: #e6f0fa;
+        --card-bg: #ffffff;
+        --text-color: #333333;
+        --accent-color: #6b7280;
+        --button-bg: #60a5fa;
+        --button-hover: #3b82f6;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--primary-bg);
+      }
+
+      .profile-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 25%;
+        min-width: 300px;
+        height: 100vh;
+        background: var(--card-bg);
+        box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        box-sizing: border-box;
+        z-index: 9999;
+        overflow-y: auto;
+      }
+      .close-button {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        font-size: 1.5rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--accent-color);
+      }
+
+      .profile-header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+
+      .profile-header h2 {
+        margin: 0;
+        color: var(--text-color);
+      }
+
+      .profile-info {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-weight: 500;
+        color: var(--accent-color);
+      }
+
+      .section {
+        margin-bottom: 2rem;
+      }
+
+      canvas {
+        max-width: 100%;
+      }
+
+      .tips-box {
+        background-color: #f0f4ff;
+        padding: 1rem;
+        border-left: 4px solid var(--button-bg);
+        border-radius: 8px;
+        font-style: italic;
+        color: var(--accent-color);
+      }
+
+      .action-links {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .action-links a {
+        text-decoration: none;
+        color: var(--button-bg);
+        font-weight: bold;
+        transition: color 0.2s;
+      }
+
+      .action-links a:hover {
+        color: var(--button-hover);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-panel">
+      <div class="profile-header">
+        <h2>Your Mood Summary</h2>
+        <button class="close-button" onclick="window.history.back()">×</button>
+      </div>
+
+      <div class="profile-info">
+        Email: <span id="userEmail">Loading...</span>
+      </div>
+
+      <div class="section">
+        <canvas id="moodChart" width="200" height="200"></canvas>
+      </div>
+
+      <div class="section tips-box" id="wellnessTip">
+        Loading a wellness tip...
+      </div>
+
+      <div class="action-links">
+        <a href="/exercises.html">🧘‍♀️ Explore Relaxation Exercises</a>
+        <a href="/journal.html">📓 Write a Journal Entry</a>
+        <a href="/games.html">🎮 Play a Mood Booster Game</a>
+      </div>
+      <button id="closeProfile">Close</button>
+
+    </div>
+
+    <script>
+      const email = localStorage.getItem("email") || "anonymous";
+      document.getElementById("userEmail").textContent = email;
+
+      async function loadMoodStats() {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/mood-summary/${email}`
+          );
+          const data = await res.json();
+          const moodCounts = data.counts;
+
+          const labels = Object.keys(moodCounts);
+          const counts = Object.values(moodCounts);
+
+          const colors = [
+            "#60a5fa",
+            "#f87171",
+            "#facc15",
+            "#34d399",
+            "#a78bfa",
+            "#fbbf24",
+            "#4ade80",
+            "#fb923c",
+          ];
+
+          new Chart(document.getElementById("moodChart"), {
+            type: "pie",
+            data: {
+              labels,
+              datasets: [
+                {
+                  data: counts,
+                  backgroundColor: colors,
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (ctx) => `${ctx.label}: ${ctx.raw}`,
+                  },
+                },
+              },
+            },
+          });
+        } catch (err) {
+          console.error("Failed to load mood data:", err);
+        }
+      }
+
+      function showRandomTip() {
+        const tips = [
+          "Take 5 deep breaths when feeling overwhelmed.",
+          "Journaling your thoughts can lighten your mind.",
+          "Take short walks to refresh your mood.",
+          "Celebrate small wins to stay motivated.",
+          "Digital detox for an hour can calm your mind.",
+          "Laughing at a meme is valid self-care!",
+          "Start your day with positive affirmations.",
+          "Stretching helps release emotional tension.",
+        ];
+        const tip = tips[Math.floor(Math.random() * tips.length)];
+        document.getElementById("wellnessTip").textContent = tip;
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        showRandomTip();
+        loadMoodStats();
+      });
+    </script>
+  </body>
+</html>
