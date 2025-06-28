@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do List | Mood Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F9FAFB;
+      --text: #2E2E2E;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+    }
+    header {
+      background: var(--primary);
+      padding: 1.2rem 2rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .todo-container {
+      max-width: 800px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .task-input {
+      display: flex;
+      gap: 1rem;
+    }
+    .task-input input, .task-input button, .task-input select {
+      padding: 0.75rem;
+      border-radius: 10px;
+    }
+    .task-input input {
+      flex: 1;
+      border: 1px solid #ccc;
+    }
+    .task-input button {
+      background: var(--accent);
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .task-list {
+      list-style: none;
+      padding: 0;
+    }
+    .task-item {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .task-item.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .task-actions button {
+      background: none;
+      border: none;
+      color: var(--primary);
+      cursor: pointer;
+    }
+
+    .profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.profile-body {
+  padding-top: 1rem;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Mood Mentor</strong></div>
+    <nav>
+      <a href="tracker.html">Mood</a>
+      <a href="journal.html">Journal</a>
+      <a href="todo.html">To-Do</a>
+      <a href="games.html">Games</a>
+      <a href="exercises.html">Exercises</a>
+    </nav>
+    <a href="profile.html" class="profile-icon">👤</a>
+
+  </header>
+
+  <div class="todo-container">
+    <h2>Plan Your Day</h2>
+    <div class="task-input">
+      <input type="date" id="datePicker" />
+      <input type="text" id="taskInput" placeholder="Add a new task..." />
+      <button id="addBtn">Add</button>
+    </div>
+    <ul class="task-list" id="taskList"></ul>
+  </div>
+
+  <script>
+    const email = localStorage.getItem("user");
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+    const addBtn = document.getElementById("addBtn");
+    const datePicker = document.getElementById("datePicker");
+
+    const today = new Date().toISOString().split("T")[0];
+    datePicker.valueAsDate = new Date();
+    datePicker.min = today;
+
+    async function loadTasks() {
+      const date = datePicker.value;
+      const res = await fetch(`http://localhost:5000/tasks/${email}/${date}`);
+      const tasks = await res.json();
+      taskList.innerHTML = "";
+      tasks.forEach(task => {
+        const li = document.createElement("li");
+        li.className = `task-item ${task.completed ? 'completed' : ''}`;
+        li.innerHTML = `
+          <span>${task.title}</span>
+          <div class="task-actions">
+            <button onclick="toggleComplete('${task._id}', ${!task.completed})">✔</button>
+            <button onclick="editTask('${task._id}', '${task.title}')">✏️</button>
+            <button onclick="deleteTask('${task._id}')">🗑️</button>
+          </div>
+        `;
+        taskList.appendChild(li);
+      });
+    }
+
+    async function toggleComplete(id, completed) {
+      await fetch(`http://localhost:5000/tasks/${id}`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ completed })
+      });
+      loadTasks();
+    }
+
+    async function editTask(id, oldTitle) {
+      const newTitle = prompt("Edit task:", oldTitle);
+      if (newTitle && newTitle !== oldTitle) {
+        await fetch(`http://localhost:5000/tasks/${id}`, {
+          method: "PUT",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title: newTitle })
+        });
+        loadTasks();
+      }
+    }
+
+    async function deleteTask(id) {
+      await fetch(`http://localhost:5000/tasks/${id}`, { method: "DELETE" });
+      loadTasks();
+    }
+
+    addBtn.addEventListener("click", async () => {
+      const title = taskInput.value.trim();
+      const date = datePicker.value;
+      if (!title) return alert("Please enter a task.");
+      await fetch("http://localhost:5000/tasks", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, title, date })
+      });
+      taskInput.value = "";
+      loadTasks();
+    });
+
+    datePicker.addEventListener("change", loadTasks);
+
+    // Load overdue tasks as notification
+    async function notifyOverdue() {
+      const res = await fetch(`http://localhost:5000/tasks/overdue/${email}`);
+      const overdue = await res.json();
+      if (overdue.length) {
+        alert(`You have ${overdue.length} overdue task(s)!`);
+      }
+    }
+
+    window.onload = () => {
+      loadTasks();
+      notifyOverdue();
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Load profile.html content dynamically
+  fetch('profile.html')
+    .then(res => res.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      setupProfile();
+    });
+
+  function setupProfile() {
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePanel = document.getElementById('profilePanel');
+    const closeProfile = document.getElementById('closeProfile');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    profileIcon.style.display = 'block';
+
+    profileIcon.addEventListener('click', async () => {
+      const email = localStorage.getItem('email') || 'anonymous';
+      userEmailSpan.textContent = email;
+      profilePanel.style.display = 'flex';
+      await loadMoodStats(email);
+    });
+
+    closeProfile.addEventListener('click', () => {
+      profilePanel.style.display = 'none';
+    });
+
+    async function loadMoodStats(email) {
+      try {
+        const res = await fetch(`http://localhost:5000/mood-stats/${email}`);
+        const data = await res.json();
+        const moods = Object.keys(data);
+        const counts = moods.map(m => data[m]);
+
+        new Chart(document.getElementById('moodPieChart'), {
+          type: 'pie',
+          data: {
+            labels: moods,
+            datasets: [{
+              data: counts,
+              backgroundColor: ['#60a5fa','#f87171','#fbbf24','#34d399','#a78bfa','#f472b6','#10b981','#fcd34d']
+            }]
+          }
+        });
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

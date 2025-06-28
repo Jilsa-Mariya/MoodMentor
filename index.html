@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mood Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F9FAFB;
+      --text: #2E2E2E;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: #A0C3D2 !important;
+      padding: 1.2rem 2rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #FFE2E2;
+    }
+
+    .hero {
+      padding: 4rem 2rem;
+      background: linear-gradient(to right, #A0C3D2, #BFD8D5);
+      text-align: center;
+      color: #2e2e2e;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      background: var(--accent);
+      color: #2e2e2e;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: #fdd8d8;
+    }
+
+    .section {
+      padding: 3rem 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .section p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px var(--card-shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .card a {
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--primary);
+      color: white;
+      margin-top: 4rem;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+
+    .profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.profile-body {
+  padding-top: 1rem;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+  <div><strong>Mood Mentor</strong></div>
+  <nav id="navbarLinks">
+    <a href="tracker.html">Mood</a>
+    <a href="journal.html">Journal</a>
+    <a href="todo.html">To-Do</a>
+    <a href="games.html">Games</a>
+    <a href="exercises.html">Exercises</a>
+    <a href="login.html" id="loginLink">Login/SignUp</a>
+  </nav>
+  <span id="profileIcon" style="display: none; margin-left: 1rem; cursor: pointer;"><a href="profile.html" class="profile-icon">👤</a>
+</span>
+</header>
+
+
+
+  <section class="hero">
+    <h1>Welcome to Mood Mentor</h1>
+    <p>Your daily companion for emotional wellness, calm routines, and self-reflection.</p>
+    <button class="btn" onclick="handleGetStarted()">Get Started</button>
+  </section>
+
+  <section class="section" id="mood">
+    <h2>🌤 Mood Tracker</h2>
+    <p>Track your emotions daily, recognize patterns, and improve your mental well-being. Our visual dashboard helps you stay connected with how you feel throughout the week.</p>
+    <div class="cards">
+      <div class="card"><a href="tracker.html">Open Mood Tracker</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="journal">
+    <h2>📔 Journaling</h2>
+    <p>Unload your thoughts in a safe space. Write freely or use prompts to explore emotions, gratitude, and self-awareness. Your private journal is always with you.</p>
+    <div class="cards">
+      <div class="card"><a href="journal.html">Start Journaling</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="todo">
+    <h2>✅ To-Do List</h2>
+    <p>Build your day with intention. Create goals, prioritize tasks, and stay motivated as you complete them. Productivity helps mood too!</p>
+    <div class="cards">
+      <div class="card"><a href="todo.html">Manage Tasks</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="games">
+    <h2>🎮 Exercises & Games</h2>
+    <p>Reset your mood with calming games and breathing exercises. Enjoy peaceful visuals, mindful challenges, and activities to calm your mind.</p>
+    <div class="cards">
+      <div class="card"><a href="games.html">Play Games</a></div>
+      <div class="card"><a href="exercises.html">Try Relaxing Exercises</a></div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Mood Mentor — Feel Better, Live Brighter 💫
+  </footer>
+<div id="profileModal" style="
+  display: none;
+  position: fixed;
+  top: 80px;
+  right: 30px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  padding: 1.2rem;
+  border-radius: 12px;
+  width: 300px;
+  z-index: 999;
+">
+  <h3 style="margin-bottom: 1rem; color: #333;">👤 Your Stats</h3>
+  <div id="statsSection">
+    <p>🧠 Mood entries: <strong>Coming Soon</strong></p>
+    <p>📔 Journal logs: <strong>Coming Soon</strong></p>
+    <p>✅ Tasks completed: <strong>Coming Soon</strong></p>
+  </div>
+  <button onclick="logout()" style="
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background: #FF7F7F;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+  ">Logout</button>
+</div>
+<script>
+  const profileIcon = document.getElementById('profileIcon');
+  const profileModal = document.getElementById('profileModal');
+  const loginLink = document.getElementById('loginLink');
+
+  const user = localStorage.getItem('user');
+
+  // Update navbar & visibility
+  if (user) {
+    profileIcon.style.display = 'inline';
+    loginLink.style.display = 'none';
+  }
+
+  // Toggle profile modal
+  profileIcon.addEventListener('click', () => {
+    profileModal.style.display = profileModal.style.display === 'none' ? 'block' : 'none';
+  });
+
+  // Handle logout
+  function logout() {
+    localStorage.removeItem('user');
+    profileModal.style.display = 'none';
+    window.location.href = 'login.html';
+  }
+
+  // Close modal on outside click
+  window.addEventListener('click', function (e) {
+    if (!profileModal.contains(e.target) && e.target !== profileIcon) {
+      profileModal.style.display = 'none';
+    }
+  });
+
+  // Handle "Get Started" button logic
+  function handleGetStarted() {
+    if (localStorage.getItem('user')) {
+      window.location.href = 'tracker.html'; // or any main section after login
+    } else {
+      window.location.href = 'login.html';
+    }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Load profile.html content dynamically
+  fetch('profile.html')
+    .then(res => res.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      setupProfile();
+    });
+
+  function setupProfile() {
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePanel = document.getElementById('profilePanel');
+    const closeProfile = document.getElementById('closeProfile');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    profileIcon.style.display = 'block';
+
+    profileIcon.addEventListener('click', async () => {
+      const email = localStorage.getItem('email') || 'anonymous';
+      userEmailSpan.textContent = email;
+      profilePanel.style.display = 'flex';
+      await loadMoodStats(email);
+    });
+
+    closeProfile.addEventListener('click', () => {
+      profilePanel.style.display = 'none';
+    });
+
+    async function loadMoodStats(email) {
+      try {
+        const res = await fetch(`http://localhost:5000/mood-stats/${email}`);
+        const data = await res.json();
+        const moods = Object.keys(data);
+        const counts = moods.map(m => data[m]);
+
+        new Chart(document.getElementById('moodPieChart'), {
+          type: 'pie',
+          data: {
+            labels: moods,
+            datasets: [{
+              data: counts,
+              backgroundColor: ['#60a5fa','#f87171','#fbbf24','#34d399','#a78bfa','#f472b6','#10b981','#fcd34d']
+            }]
+          }
+        });
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

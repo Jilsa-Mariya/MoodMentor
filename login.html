@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Mood Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F4FAFB;
+      --text: #2E2E2E;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, var(--bg), #d7e8ee);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .auth-box {
+      background: white;
+      padding: 2rem;
+      border-radius: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.2rem;
+      color: var(--primary);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background: #8fbacb;
+    }
+
+    .toggle-link {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #555;
+      cursor: pointer;
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error {
+      color: red;
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-box">
+    <h2 id="formTitle">Login to Mood Mentor</h2>
+
+    <div id="errorMsg" class="error"></div>
+
+    <form id="authForm">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" class="hidden" />
+      <button type="submit" id="submitBtn">Login</button>
+    </form>
+
+    <span class="toggle-link" onclick="toggleForm()">Don't have an account? Sign up</span>
+  </div>
+
+  <script>
+    const formTitle = document.getElementById('formTitle');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const submitBtn = document.getElementById('submitBtn');
+    const toggleLink = document.querySelector('.toggle-link');
+    const authForm = document.getElementById('authForm');
+    const errorMsg = document.getElementById('errorMsg');
+
+    let isSignup = false;
+
+    function toggleForm() {
+      isSignup = !isSignup;
+      formTitle.textContent = isSignup ? 'Sign Up for Mood Mentor' : 'Login to Mood Mentor';
+      confirmPassword.classList.toggle('hidden');
+      submitBtn.textContent = isSignup ? 'Sign Up' : 'Login';
+      toggleLink.textContent = isSignup ? 'Already have an account? Login' : "Don't have an account? Sign up";
+      errorMsg.textContent = '';
+    }
+
+    authForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmPassword').value;
+
+      errorMsg.textContent = '';
+
+      if (isSignup && password !== confirm) {
+        errorMsg.textContent = "Passwords don't match!";
+        return;
+      }
+
+      const url = isSignup ? 'http://localhost:5000/signup' : 'http://localhost:5000/login';
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          if (isSignup) {
+            // Silent redirect to login
+            toggleForm(); // switch form
+          } else {
+            // Store login and redirect
+            localStorage.setItem('user', email);
+            window.location.href = 'index.html';
+          }
+        } else {
+          errorMsg.textContent = result.message;
+        }
+      } catch (err) {
+        errorMsg.textContent = 'Something went wrong.';
+      }
+    });
+  </script>
+</body>
+</html>

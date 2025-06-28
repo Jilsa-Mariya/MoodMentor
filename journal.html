@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Journal | Mood Mentor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F9FAFB;
+      --text: #2E2E2E;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    header {
+      background: var(--primary);
+      padding: 1rem 2rem;
+      color: #fff;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a {
+      color: #fff;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px var(--card-shadow);
+      max-width: 800px;
+      margin: auto;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    textarea {
+      height: 180px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 2rem;
+      background: var(--accent);
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .entry {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px var(--card-shadow);
+    }
+
+    h3 {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    #status {
+      margin-top: 0.5rem;
+      color: gray;
+    }
+
+    .profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.profile-body {
+  padding-top: 1rem;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>Mood Mentor</strong></div>
+    <nav>
+      <a href="tracker.html">Mood</a>
+      <a href="journal.html">Journal</a>
+      <a href="todo.html">To-Do</a>
+      <a href="games.html">Games</a>
+      <a href="exercises.html">Exercises</a>
+    </nav>
+    <a href="profile.html" class="profile-icon">👤</a>
+
+  </header>
+
+  <div class="card">
+    <label for="entryDate">Select Date</label>
+    <input type="date" id="entryDate" />
+
+    <label for="journalText">Your Reflection</label>
+    <textarea id="journalText" placeholder="Write your thoughts..."></textarea>
+
+    <button id="saveBtn" onclick="saveOrUpdate()">Save Entry</button>
+    <div id="status"></div>
+
+    <h3>Previous Entries</h3>
+    <div id="entriesList"></div>
+  </div>
+
+  <script>
+    const email = localStorage.getItem("user") || "test@example.com";
+    const dateInput = document.getElementById("entryDate");
+    const journalText = document.getElementById("journalText");
+    const saveBtn = document.getElementById("saveBtn");
+    const status = document.getElementById("status");
+    const entriesList = document.getElementById("entriesList");
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    dateInput.value = todayStr;
+
+    async function loadEntry(date) {
+      try {
+        const res = await fetch(`http://localhost:5000/journal/${email}/${date}`);
+        const data = await res.json();
+        if (data.length > 0) {
+          journalText.value = data[0].content || "";
+          saveBtn.textContent = date === todayStr ? "Update Entry" : "View Only";
+          journalText.disabled = date !== todayStr;
+        } else {
+          journalText.value = "";
+          saveBtn.textContent = "Save Entry";
+          journalText.disabled = date !== todayStr;
+        }
+        status.textContent = "";
+      } catch (err) {
+        console.error(err);
+        status.textContent = "Failed to load entry.";
+      }
+    }
+
+    async function saveOrUpdate() {
+      const date = dateInput.value;
+      const content = journalText.value.trim();
+      if (!content) {
+        status.textContent = "Write something before saving.";
+        return;
+      }
+
+      const res = await fetch("http://localhost:5000/journal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, date, content })
+      });
+
+      if (res.ok) {
+        saveBtn.textContent = "Saved ✔";
+        status.textContent = "Entry saved.";
+        await loadEntry(todayStr); // Refresh today's text area
+        setTimeout(() => loadEntries(), 200); // Ensure the updated entry appears
+      } else {
+        status.textContent = "Could not save entry.";
+      }
+    }
+
+    async function loadEntries() {
+      entriesList.innerHTML = "";
+      const res = await fetch(`http://localhost:5000/journal/${email}`);
+      const data = await res.json();
+      if (data.length === 0) {
+        entriesList.innerHTML = "<p>No entries yet.</p>";
+        return;
+      }
+      data.reverse().forEach(entry => {
+        const div = document.createElement("div");
+        div.className = "entry";
+        div.innerHTML = `<strong>${new Date(entry.date).toDateString()}</strong><p>${entry.content}</p>`;
+        entriesList.appendChild(div);
+      });
+    }
+
+    dateInput.addEventListener("change", () => {
+      loadEntry(dateInput.value);
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadEntry(todayStr);
+      loadEntries();
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Load profile.html content dynamically
+  fetch('profile.html')
+    .then(res => res.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      setupProfile();
+    });
+
+  function setupProfile() {
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePanel = document.getElementById('profilePanel');
+    const closeProfile = document.getElementById('closeProfile');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    profileIcon.style.display = 'block';
+
+    profileIcon.addEventListener('click', async () => {
+      const email = localStorage.getItem('email') || 'anonymous';
+      userEmailSpan.textContent = email;
+      profilePanel.style.display = 'flex';
+      await loadMoodStats(email);
+    });
+
+    closeProfile.addEventListener('click', () => {
+      profilePanel.style.display = 'none';
+    });
+
+    async function loadMoodStats(email) {
+      try {
+        const res = await fetch(`http://localhost:5000/mood-stats/${email}`);
+        const data = await res.json();
+        const moods = Object.keys(data);
+        const counts = moods.map(m => data[m]);
+
+        new Chart(document.getElementById('moodPieChart'), {
+          type: 'pie',
+          data: {
+            labels: moods,
+            datasets: [{
+              data: counts,
+              backgroundColor: ['#60a5fa','#f87171','#fbbf24','#34d399','#a78bfa','#f472b6','#10b981','#fcd34d']
+            }]
+          }
+        });
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
