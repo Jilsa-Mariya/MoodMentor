@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relaxing Exercises | Mood Mentor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #A0C3D2;
+      --accent: #FFE2E2;
+      --bg: #F9FAFB;
+      --text: #2E2E2E;
+      --card-bg: #ffffff;
+      --card-shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #F9FAFB, #E6F0F3);
+      color: var(--text);
+      padding: 2rem;
+    }
+
+    /* Navbar Styles (same as homepage) */
+header {
+  background: var(--primary);
+  padding: 1.2rem 2rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 0; /* remove roundness from header */
+}
+
+nav a {
+  color: #fff;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
+#loginLink {
+  background: white;
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+#loginLink:hover {
+  background: #e3f1f6;
+}
+
+#profileIcon {
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+
+    #musicToggle {
+      background-color: white;
+      color: var(--primary);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    #musicToggle:hover {
+      background-color: #e3f1f6;
+    }
+
+    .exercises-container {
+      max-width: 1200px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .exercise-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      text-align: center;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .exercise-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .exercise-card h3 {
+      font-size: 1.3rem;
+      margin: 1rem 0 0.4rem;
+      color: #333;
+    }
+
+    .exercise-card p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .exercise-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .exercise-content {
+      display: none;
+      margin-top: 1.2rem;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .exercise-card.active .exercise-content {
+      display: block;
+    }
+
+    .breathing-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .breathing-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      animation: breathe 8s infinite ease-in-out;
+    }
+
+    .breath-text {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border-radius: 14px;
+      margin-top: 1rem;
+      border: none;
+    }
+    #loginLink {
+  background: white;
+  color: var(--primary);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: background 0.3s ease;
+}
+
+#loginLink:hover {
+  background: #e3f1f6;
+}
+
+#profileIcon {
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+header {
+  background: var(--primary);
+  padding: 1.2rem 2rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+nav a {
+  color: #fff;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #FFE2E2;
+}
+
+.profile-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25%;
+  height: 100%;
+  background: #ffffff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  padding: 1rem;
+  display: none;
+  flex-direction: column;
+  animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+.profile-body {
+  padding-top: 1rem;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+  <div><strong>Mood Mentor</strong></div>
+  <nav id="navbarLinks">
+    <a href="tracker.html">Mood</a>
+    <a href="journal.html">Journal</a>
+    <a href="todo.html">To-Do</a>
+    <a href="games.html">Games</a>
+    <a href="exercises.html">Exercises</a>
+    <a href="login.html" id="loginLink">Login/SignUp</a>
+  </nav>
+  <span id="profileIcon" style="display: none; margin-left: 1rem; cursor: pointer;"><a href="profile.html" class="profile-icon">👤</a>
+</span>
+</header>
+
+<script>
+  const profileIcon = document.getElementById("profileIcon");
+  const loginLink = document.getElementById("loginLink");
+  const user = localStorage.getItem("user");
+
+  if (user) {
+    profileIcon.style.display = "inline";
+    loginLink.style.display = "none";
+  } else {
+    profileIcon.style.display = "none";
+    loginLink.style.display = "inline";
+  }
+
+  profileIcon?.addEventListener("click", () => {
+    alert("Profile modal coming soon or redirect to profile!");
+  });
+</script>
+
+  <!-- ✂️ HEAD SECTION remains unchanged -->
+<div class="exercises-container">
+
+  <!-- 🫧 Breathing Bubble -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🫧</div>
+    <h3>Breathing Bubble</h3>
+    <p>Follow the bubble to inhale and exhale calmly.</p>
+    <div class="exercise-content">
+      <div class="breathing-container">
+        <div class="breathing-circle"></div>
+        <div class="breath-text" id="breathText">Inhale</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💆‍♀️ Neck Roll -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">💆‍♀️</div>
+    <h3>Neck Roll</h3>
+    <p>Gently rotate your neck to release tension.</p>
+    <div class="exercise-content">
+      <p>Roll clockwise 10s, then reverse. Breathe slowly.</p>
+    </div>
+  </div>
+
+  <!-- 👁️ Eye Relax -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">👁️</div>
+    <h3>Eye Relax</h3>
+    <p>Refresh your eyes after screen time.</p>
+    <div class="exercise-content">
+      <p>Close eyes 20s. Then look at a far object. Blink slowly.</p>
+    </div>
+  </div>
+
+  <!-- 🧘‍♀️ Posture Stretch -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🧘‍♀️</div>
+    <h3>Posture Stretch</h3>
+    <p>Stretch gently with guided movement.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/L_xrDAtykMI?start=10" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 🧎‍♀️ Back Stretch -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🧎‍♀️</div>
+    <h3>Back Stretch</h3>
+    <p>Stretch lower back while seated or standing.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/VH5pPnsn3qM" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 👣 Foot Circles -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🦶</div>
+    <h3>Foot Circles</h3>
+    <p>Improve ankle flexibility.</p>
+    <div class="exercise-content">
+      <p>Lift feet, rotate each ankle in circles 10x.</p>
+    </div>
+  </div>
+
+  <!-- 🖐️ Hand Stretch -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🤲</div>
+    <h3>Hand Stretch</h3>
+    <p>Stretch your wrists and fingers.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/ZwD5KOxvP_I" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 🧠 Mindful Breath -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🧠</div>
+    <h3>Mindful Breathing</h3>
+    <p>Focus on breath to calm your mind.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/pJka9PIXR48" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 🌳 Forest Visualization -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🌲</div>
+    <h3>Forest Visualization</h3>
+    <p>Relax to peaceful forest sounds.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/qDDCPcIZKCM" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 🎧 Calm Soundscape -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🎧</div>
+    <h3>Sound Bath</h3>
+    <p>Recharge with ambient tones.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/5DiMoehAeOU" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- ✋ Palm Rub -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">✋</div>
+    <h3>Palm Rub</h3>
+    <p>Generate warmth & reduce tension.</p>
+    <div class="exercise-content">
+      <p>Rub hands slowly together. Then rest over closed eyes.</p>
+    </div>
+  </div>
+
+  <!-- 🌬️ Deep Exhale -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🌬️</div>
+    <h3>Deep Exhale</h3>
+    <p>Feel your chest soften as you exhale fully.</p>
+    <div class="exercise-content">
+      <p>Inhale for 4 counts, exhale for 6. Repeat 5 times.</p>
+    </div>
+  </div>
+
+  <!-- 🛌 Sleep Relaxation -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🛌</div>
+    <h3>Sleep Wind Down</h3>
+    <p>Prep your mind & body for restful sleep.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/z6X5oEIg6Ak" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 💨 Box Breathing -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">📦</div>
+    <h3>Box Breathing</h3>
+    <p>Balance your nervous system.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/FJJazKtH_9I" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- 🌀 Shoulder Rolls -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">🌀</div>
+    <h3>Shoulder Rolls</h3>
+    <p>Loosen up and reset your posture.</p>
+    <div class="exercise-content">
+      <p>Roll shoulders backward 10x, then forward. Slow pace.</p>
+    </div>
+  </div>
+
+  <!-- ☁️ Cloud Meditation -->
+  <div class="exercise-card" onclick="toggleCard(this)">
+    <div class="exercise-icon">☁️</div>
+    <h3>Cloud Meditation</h3>
+    <p>Watch your thoughts drift like clouds.</p>
+    <div class="exercise-content">
+      <iframe src="https://www.youtube.com/embed/cHfF_tj4s50" allowfullscreen></iframe>
+    </div>
+  </div>
+
+</div>
+
+
+  <!-- Ambient Music -->
+  <audio id="bgMusic" loop autoplay>
+    <source src="https://cdn.pixabay.com/download/audio/2022/08/17/audio_6c6c6c7770.mp3" type="audio/mp3">
+  </audio>
+
+  <script>
+//     const profileIcon = document.getElementById('profileIcon');
+//   const loginLink = document.getElementById('loginLink');
+//   const user = localStorage.getItem('user');
+
+//   if (user) {
+//     profileIcon.style.display = 'inline';
+//     loginLink.style.display = 'none';
+//   }
+
+//   profileIcon?.addEventListener('click', () => {
+//     alert("Profile and stats modal coming soon!"); // Replace with modal if needed
+//   });
+    const breathText = document.getElementById('breathText');
+    let toggle = 0;
+    if (breathText) {
+      setInterval(() => {
+        toggle = (toggle + 1) % 2;
+        breathText.textContent = toggle === 0 ? 'Inhale' : 'Exhale';
+      }, 4000);
+    }
+
+    function toggleCard(card) {
+      document.querySelectorAll('.exercise-card').forEach(c => {
+        if (c !== card) c.classList.remove('active');
+      });
+      card.classList.toggle('active');
+    }
+
+    const musicToggle = document.getElementById("musicToggle");
+    const bgMusic = document.getElementById("bgMusic");
+
+    musicToggle.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play();
+        musicToggle.textContent = "🔊 Music On";
+      } else {
+        bgMusic.pause();
+        musicToggle.textContent = "🔇 Music Off";
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // Load profile.html content dynamically
+  fetch('profile.html')
+    .then(res => res.text())
+    .then(html => {
+      document.body.insertAdjacentHTML('beforeend', html);
+      setupProfile();
+    });
+
+  function setupProfile() {
+    const profileIcon = document.getElementById('profileIcon');
+    const profilePanel = document.getElementById('profilePanel');
+    const closeProfile = document.getElementById('closeProfile');
+    const userEmailSpan = document.getElementById('userEmail');
+
+    profileIcon.style.display = 'block';
+
+    profileIcon.addEventListener('click', async () => {
+      const email = localStorage.getItem('email') || 'anonymous';
+      userEmailSpan.textContent = email;
+      profilePanel.style.display = 'flex';
+      await loadMoodStats(email);
+    });
+
+    closeProfile.addEventListener('click', () => {
+      profilePanel.style.display = 'none';
+    });
+
+    async function loadMoodStats(email) {
+      try {
+        const res = await fetch(`http://localhost:5000/mood-stats/${email}`);
+        const data = await res.json();
+        const moods = Object.keys(data);
+        const counts = moods.map(m => data[m]);
+
+        new Chart(document.getElementById('moodPieChart'), {
+          type: 'pie',
+          data: {
+            labels: moods,
+            datasets: [{
+              data: counts,
+              backgroundColor: ['#60a5fa','#f87171','#fbbf24','#34d399','#a78bfa','#f472b6','#10b981','#fcd34d']
+            }]
+          }
+        });
+      } catch (err) {
+        console.error('Error loading stats:', err);
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
