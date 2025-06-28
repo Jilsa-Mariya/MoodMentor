@@ -37,6 +37,22 @@ MoodMentor is thoughtfully designed with a soft, minimalist aesthetic that helps
 
 ---
 
+## 📸 Preview  
+Here’s a quick look at **MoodMentor** in action:
+
+| Mood Tracker | Journal |
+|--------------|---------|
+| ![Mood](screenshots/mood-tracker.png) | ![Journal](screenshots/journal.png) |
+
+| Chatbot | Camera Mood Detection |
+|---------|------------------------|
+| ![Chatbot](screenshots/chatbot.png) | ![Camera](screenshots/camera-detection.png) |
+
+> 💡 Looking for more?  
+> Additional screenshots for features like **Mindfulness**, **Games**, and **Insights** can be found in the [`/screenshots`](./screenshots) folder.
+
+---
+
 ##  🤝 Built By
 
 Created by Jilsa Mariya to explore mental wellness apps with fun and engaging tools.
