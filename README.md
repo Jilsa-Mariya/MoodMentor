@@ -42,11 +42,11 @@ Here’s a quick look at **MoodMentor** in action:
 
 | Mood Tracker | Journal |
 |--------------|---------|
-| ![Mood](screenshots/mood-tracker.png) | ![Journal](screenshots/journal.png) |
+| ![Mood](screenshots/tracker.jpg) | ![Journal](screenshots/journal.jpg) |
 
 | Chatbot | Camera Mood Detection |
 |---------|------------------------|
-| ![Chatbot](screenshots/chatbot.png) | ![Camera](screenshots/camera-detection.png) |
+| ![Chatbot](screenshots/chat.jpg) | ![Camera](screenshots/camera.jpg) |
 
 > 💡 Looking for more?  
 > Additional screenshots for features like **Mindfulness**, **Games**, and **Insights** can be found in the [`/screenshots`](./screenshots) folder.
